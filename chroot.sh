@@ -13,9 +13,6 @@ hostname="tetsujin"
 echo "$hostname" > /etc/hostname
 printf "127.0.1.1\t%s.localdomain\t%s" "$hostname" "$hostname" >> /etc/hosts
 
-pacman --noconfirm --needed -S networkmanager
-pacman -Sy --noconfirm efibootmgr
-partuuid=$(lsblk -o path,partuuid | grep "/dev/sda3" | awk '{print $2}')
-efibootmgr --disk "/dev/sda1" --part 1 --create --label "Arch Linux" --loader /vmlinuz-linux --unicode \
-    "root=PARTUUID=$partuuid rw initrd=\intel-ucode.img initrd=\initramfs-linux.img" --verbose
+pacman -Sy --noconfirm --needed networkmanager efibootmgr grub
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id="archlinux" && grub-mkconfig -o /boot/grub/grub.cfg
 exit
