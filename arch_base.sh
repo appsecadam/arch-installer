@@ -20,10 +20,11 @@ yes | mkfs.ext4 "$root"
 mount "$root" /mnt
 mkdir -p /mnt/boot
 mount "$efi" /mnt/boot
-curl -s "https://www.archlinux.org/mirrorlist/?country=US&protocol=https&ip_version=4&use_mirror_status=on" \
+curl -s "https://www.archlinux.org/mirrorlist/?country=US&protocol=https&ip_version=4&use_mirror_status=off" \
 | sed s/#Server/Server/g > /etc/pacman.d/mirrorlist 
 pacman -Sy --noconfirm archlinux-keyring
 pacstrap /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab 
-arch-chroot /mnt 
-reboot
+mv chroot.sh > /mnt/chroot.sh
+arch-chroot /mnt sh chroot.sh
+shutdown -r +1

@@ -14,9 +14,7 @@ echo "$hostname" > /etc/hostname
 printf "127.0.1.1\t%s.localdomain\t%s" "$hostname" "$hostname" >> /etc/hosts
 
 pacman --noconfirm --needed -S networkmanager
-systemctl enable NetworkManager
-systemctl start NetworkManager
-
+pacman -Sy --noconfirm efibootmgr
 partuuid=$(lsblk -o path,partuuid | grep "/dev/sda3" | awk '{print $2}')
 efibootmgr --disk "/dev/sda1" --part 1 --create --label "Arch Linux" --loader /vmlinuz-linux --unicode \
     "root=PARTUUID=$partuuid rw initrd=\intel-ucode.img initrd=\initramfs-linux.img" --verbose
