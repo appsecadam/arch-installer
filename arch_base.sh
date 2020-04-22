@@ -47,6 +47,7 @@ n
 
 w
 EOF
+partprobe
 efi=$(lsblk -o path,type | grep part | awk 'NR==1 {print $1}')
 swap=$(lsblk -o path,type | grep part | awk 'NR==2 {print $1}')
 root=$(lsblk -o path,type | grep part | awk 'NR==2 {print $1}')
@@ -58,8 +59,7 @@ mount "$root" /mnt
 mkdir -p /mnt/boot
 mount "$efi" /mnt/boot
 
-curl -s "https://www.archlinux.org/mirrorlist/?country=US&protocol=https&ip_version=4&ip_version=6&use_mirror_status=on" \
-    | sed s/#Server/Server/g > /etc/pacman.d/mirrorlist 
+curl -s "https://www.archlinux.org/mirrorlist/all/https/" | sed s/#Server/Server/g > /etc/pacman.d/mirrorlist 
 pacman -Sy --noconfirm archlinux-keyring
 pacstrap /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
