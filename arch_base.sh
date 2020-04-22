@@ -50,7 +50,7 @@ EOF
 partprobe
 efi=$(lsblk -o path,type | grep part | awk 'NR==1 {print $1}')
 swap=$(lsblk -o path,type | grep part | awk 'NR==2 {print $1}')
-root=$(lsblk -o path,type | grep part | awk 'NR==2 {print $1}')
+root=$(lsblk -o path,type | grep part | awk 'NR==3 {print $1}')
 mkfs.fat -F32 "$efi"
 mkswap "$swap"
 swapon "$swap"
