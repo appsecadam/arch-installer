@@ -25,6 +25,6 @@ curl -s "https://www.archlinux.org/mirrorlist/?country=US&protocol=https&ip_vers
 pacman -Sy --noconfirm archlinux-keyring
 pacstrap /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab 
-mv chroot.sh > /mnt/chroot.sh
+mv chroot.sh /mnt/chroot.sh
 arch-chroot /mnt sh chroot.sh
 shutdown -r +1
